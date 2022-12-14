@@ -6,12 +6,13 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 03:41:24 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/07 04:30:10 by romachad         ###   ########.fr       */
+/*   Updated: 2022/12/14 04:06:11 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/pipex.h"
 #include "../headers/ft_printf.h"
+#include "../headers/libft.h"
 
 int	check_perm(const char *file, int mode)
 {
@@ -36,6 +37,7 @@ int	check_files(int argc, const char *argv[])
 {
 	int	error;
 	int	fd;
+	char	*str;
 
 	error = 0;
 	if (argc != 5)
@@ -50,7 +52,10 @@ int	check_files(int argc, const char *argv[])
 	fd = open(argv[4], O_CREAT|O_RDWR|O_TRUNC, 0664);
 	if (fd == -1)
 	{
-		perror(argv[4]);
+		str = ft_strjoin("pipex: ", argv[4]);
+		perror(str);
+		free(str);
+		//perror(argv[4]);
 		error = 1;
 	}
 	else

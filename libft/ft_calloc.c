@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/21 06:59:21 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/06 03:27:43 by romachad         ###   ########.fr       */
+/*   Created: 2022/06/02 03:45:20 by romachad          #+#    #+#             */
+/*   Updated: 2022/06/29 01:55:42 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../headers/pipex.h"
+#include "libft.h"
 
-size_t	ft_strlen(const char *s)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	size_t	i;
+	void	*mem;
+	size_t	mem_size;
 
-	if (!s)
+	if (nmemb == 0 || size == 0)
 		return (0);
-	i = 0;
-	while (s[i] != 0)
-		i++;
-	return (i);
+	mem_size = nmemb * size;
+	if (mem_size / nmemb != size)
+		return (0);
+	mem = malloc(mem_size);
+	if (!mem)
+		return (0);
+	ft_bzero(mem, (nmemb * size));
+	return (mem);
 }

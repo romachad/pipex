@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 06:17:56 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/06 03:23:00 by romachad         ###   ########.fr       */
+/*   Created: 2022/05/30 01:50:55 by romachad          #+#    #+#             */
+/*   Updated: 2022/06/29 03:04:09 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../headers/pipex.h"
+#include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t	size_s1;
-	size_t	size_s2;
-	size_t	i;
-	char	*joined;
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
 	if (!s1 || !s2)
-		return (NULL);
-	size_s1 = ft_strlen(s1);
-	size_s2 = ft_strlen(s2);
-	joined = malloc((size_s1 + size_s2 + 1) * sizeof(char));
-	if (!joined)
 		return (0);
+	if (s1 == s2)
+		return (0);
+	str1 = (unsigned char *) s1;
+	str2 = (unsigned char *) s2;
 	i = 0;
-	while (i < (size_s1 + size_s2 + 1))
+	while (i < n)
 	{
-		if (i < size_s1)
-			joined[i] = s1[i];
-		else
-			joined[i] = s2[i - size_s1];
+		if (&str1[i] == s2)
+			return (-1);
+		if (&str2[i] == s1)
+			return (1);
+		if (((unsigned char) str1[i]) != ((unsigned char) str2[i]))
+			return (((unsigned char) str1[i]) - ((unsigned char) str2[i]));
 		i++;
 	}
-	return (joined);
+	return (0);
 }
