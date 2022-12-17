@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:30:45 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/15 01:30:05 by romachad         ###   ########.fr       */
+/*   Updated: 2022/12/17 06:53:23 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,73 @@
 #include "../headers/libft.h"
 #include "../headers/ft_printf.h"
 
-#include <sys/wait.h>
 int	main(int argc, const char *argv[], char *envp[])
 {
-	int	fd;
-	char	**cmd1;
-	char	*fpath;
-	//int i;
-
-	cmd1 = ft_split(argv[2], ' ');
-	fpath = path_search(envp, cmd1[0]);
-	if (fpath == NULL)
-	{
-		ft_printf("COMMAND %s NOT FOUND!\n", cmd1[0]);
-		//free(fpath);
-		free_char_array(cmd1);
-		return 127;
-	}
-	
+	int	pid;
+	int	pid2;
+	int p1[2];
+	t_pipex	arguments;
 
 	if ((check_files(argc, argv)))
+	{
 		return 2;
-	fd = fork();
-	if (fd == -1)
+	}
+
+	if (pipe(p1) == -1)
+	{
+		ft_printf("Fail to create pipe!\n");
+		return (130);
+	}
+
+	arguments.infile = ft_strdup(argv[1]);
+	arguments.outfile = ft_strdup(argv[4]);
+	arguments.cmd_str = ft_strdup(argv[2]);
+	
+	pid = fork();
+	if (pid == -1)
+	{
 		//FALHA no FORK
-		return (3);
-	if (fd == 0)
-	{
-		//CHILD!
-		ft_printf("I am fd zero!\n");
-		execve(fpath, cmd1, envp);
-		ft_printf("Deu ruim se vc esta me lendo!\n");
-		free(fpath);
-		free_char_array(cmd1);
+		free(arguments.infile);
+		free(arguments.outfile);
+		free(arguments.cmd_str);
 		return (3);
 	}
-	else
+	if (pid == 0)
 	{
-		//PARENT
-		ft_printf("I am fd %d!\n", fd);
+		pid = child_prog(p1, 0, &arguments, envp);
+		free(arguments.infile);
+		free(arguments.outfile);
+		free(arguments.cmd_str);
+		return (pid);
 	}
-	wait(0);
-	free(fpath);
-	free_char_array(cmd1);
-	ft_printf("Still alive: %d\n", fd);
+	free(arguments.cmd_str);
+	arguments.cmd_str = ft_strdup(argv[3]);
+	pid2 = fork();
+	if (pid2 == -1)
+	{
+		wait(NULL);
+		//FALHA no FORK
+		free(arguments.infile);
+		free(arguments.outfile);
+		free(arguments.cmd_str);
+		return (4);
+	}
+	if (pid2 == 0)
+	{
+		pid2 = child_prog(p1, 1, &arguments, envp);
+		free(arguments.infile);
+		free(arguments.outfile);
+		free(arguments.cmd_str);
+		return (pid2);
+	}
+	close(p1[0]);
+	close(p1[1]);
+	//Adicionar wait para cara PID!
+	waitpid(pid, NULL, 0);
+	waitpid(pid2, NULL, 0);
+	free(arguments.infile);
+	free(arguments.outfile);
+	free(arguments.cmd_str);
+	//ft_printf("Still alive: %d\n", pid);
 	return 0;
 }

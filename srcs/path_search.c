@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 00:00:09 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/15 01:36:38 by romachad         ###   ########.fr       */
+/*   Updated: 2022/12/17 04:25:59 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*free_char_array(char **array)
 	return (0);
 }
 
-char	*exec_val(char **paths, char *cmd)
+static char	*exec_val(char **paths, char *cmd)
 {
 	int	i;
 	int	x_flag;
@@ -49,7 +49,7 @@ char	*exec_val(char **paths, char *cmd)
 	}
 }
 
-#include "../headers/ft_printf.h"
+//#include "../headers/ft_printf.h"
 char	*path_search(char *envp[], const char *cmd)
 {
 	int	i;
