@@ -19,11 +19,11 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(HEADERS) $(OBJS) libs
-	$(CC) $(CFLAGS) $(COMMON) $(SRCS) libs/libftprintf.a libs/libft.a $(XFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) libs/libftprintf.a libs/libft.a -o $(NAME)
 
 $(HEADERS):
 	ln printf/srcs/ft_printf.h $(HEADERS_DIR)
-	ln libft/libft.h $(HEADERS_DIR)
+	ln libft/headers/libft.h $(HEADERS_DIR)
 
 libs: $(HEADERS)
 	make -C ./printf
