@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:30:45 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/17 06:53:23 by romachad         ###   ########.fr       */
+/*   Updated: 2022/12/31 02:32:15 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ int	main(int argc, const char *argv[], char *envp[])
 {
 	int	pid;
 	int	pid2;
-	int p1[2];
+	int	p1[2];
+	int	error;
 	t_pipex	arguments;
 
-	if ((check_files(argc, argv)))
+	/*if ((check_files(argc, argv)))
 	{
 		return 2;
-	}
+	}*/
+	error = check_files(argc, argv);
+	if (error > 1)
+		return (2);
 
 	if (pipe(p1) == -1)
 	{

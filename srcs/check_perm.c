@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 03:41:24 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/14 04:06:11 by romachad         ###   ########.fr       */
+/*   Updated: 2022/12/31 01:58:02 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 int	check_perm(const char *file, int mode)
 {
-	int	fd;
 	char	*str;
+	int		fd;
 
 	fd = access(file, mode);
 	if (fd == -1 && mode != F_OK)
@@ -35,9 +35,9 @@ int	check_perm(const char *file, int mode)
 
 int	check_files(int argc, const char *argv[])
 {
-	int	error;
-	int	fd;
 	char	*str;
+	int		error;
+	int		fd;
 
 	error = 0;
 	if (argc != 5)
@@ -49,13 +49,12 @@ int	check_files(int argc, const char *argv[])
 	{
 		error = 1;
 	}
-	fd = open(argv[4], O_CREAT|O_RDWR|O_TRUNC, 0664);
+	fd = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0664);
 	if (fd == -1)
 	{
 		str = ft_strjoin("pipex: ", argv[4]);
 		perror(str);
 		free(str);
-		//perror(argv[4]);
 		error = 1;
 	}
 	else

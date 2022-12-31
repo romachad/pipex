@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 00:00:09 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/17 04:25:59 by romachad         ###   ########.fr       */
+/*   Updated: 2022/12/31 01:55:39 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	*free_char_array(char **array)
 
 static char	*exec_val(char **paths, char *cmd)
 {
-	int	i;
-	int	x_flag;
 	char	*tmppath;
+	int		i;
+	int		x_flag;
 
 	i = -1;
-	while(paths[++i])
+	while (paths[++i])
 	{
 		tmppath = ft_strjoin(paths[i], cmd);
 		x_flag = access(tmppath, X_OK);
@@ -43,19 +43,15 @@ static char	*exec_val(char **paths, char *cmd)
 	if (x_flag == 0)
 		return (tmppath);
 	else
-	{
-		//free(tmppath);
 		return (NULL);
-	}
 }
 
-//#include "../headers/ft_printf.h"
 char	*path_search(char *envp[], const char *cmd)
 {
-	int	i;
 	char	*path;
 	char	*tmppath;
 	char	**paths;
+	int		i;
 
 	i = -1;
 	while (envp[++i])
@@ -69,7 +65,6 @@ char	*path_search(char *envp[], const char *cmd)
 	}
 	else
 		path = ft_strdup(":./");
-	//ft_printf("\npath is: %s\n", path);
 	paths = ft_split(path, ':');
 	free(path);
 	path = exec_val(paths, ft_strjoin("/", cmd));
