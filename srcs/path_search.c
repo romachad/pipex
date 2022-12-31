@@ -6,12 +6,20 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 00:00:09 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/31 01:55:39 by romachad         ###   ########.fr       */
+/*   Updated: 2022/12/31 19:00:56 by coret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/pipex.h"
 #include "../headers/libft.h"
+
+int	free_args(t_pipex *args)
+{
+	free(args->infile);
+	free(args->outfile);
+	free(args->cmd_str);
+	return (4);
+}
 
 void	*free_char_array(char **array)
 {

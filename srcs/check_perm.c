@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 03:41:24 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/31 01:58:02 by romachad         ###   ########.fr       */
+/*   Updated: 2022/12/31 20:09:06 by coret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../headers/ft_printf.h"
 #include "../headers/libft.h"
 
-int	check_perm(const char *file, int mode)
+/*int	check_perm(const char *file, int mode)
 {
 	char	*str;
 	int		fd;
@@ -55,9 +55,42 @@ int	check_files(int argc, const char *argv[])
 		str = ft_strjoin("pipex: ", argv[4]);
 		perror(str);
 		free(str);
-		error = 1;
+		error = 2;
 	}
 	else
 		close(fd);
 	return (error);
+}*/
+
+int	check_outfile(char *outfile)
+{
+	char	*str;
+	int		fd;
+
+	fd = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	if (fd == -1)
+	{
+		str = ft_strjoin("pipex: ", outfile);
+		perror(str);
+		free(str);
+		return (5);
+	}
+	close(fd);
+	return (0);
+}
+
+int	check_infile(char *infile)
+{
+	char	*str;
+	int		fd;
+
+	fd = access(infile, R_OK);
+	if (fd == -1)
+	{
+		str = ft_strjoin("pipex: ", infile);
+		perror(str);
+		free(str);
+		return (6);
+	}
+	return (0);
 }
