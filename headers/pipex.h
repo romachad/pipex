@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:31:56 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/02 21:03:51 by coret            ###   ########.fr       */
+/*   Updated: 2023/01/03 04:24:58 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct p_pipex
 
 char	*path_search(char *envp[], const char *cmd);
 void	*free_char_array(char **array);
+void	treat_quotes(char *str);
+void	add_space(char **str);
 //int		check_files(int argc, const char *argv[]);
 //int		check_perm(const char *file, int mode);
 //int		child_prog(int *pipe, int flag, t_pipex *args, char **envp);

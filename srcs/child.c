@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 03:50:29 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/02 21:23:16 by coret            ###   ########.fr       */
+/*   Updated: 2023/01/03 06:05:41 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,37 @@ static int	child_exec(int *pipe, t_pipex *args, char **envp)
 	}
 }
 
+static char	**treat_str(char *str)
+{
+	char	*t_str;
+	char	**str_treated;
+	char	set[2];
+	int		i;
+
+	set[0] = 18;
+	set[1] = 0;
+	treat_quotes(str);
+	//free(str);
+	str_treated = ft_split(str, ' ');
+	free(str);
+	i = -1;
+	while (str_treated[++i])
+	{
+		t_str = ft_strtrim(str_treated[i], set);
+		if (t_str[0] == 0)
+			free(t_str);
+		else
+		{
+			free(str_treated[i]);
+			str_treated[i] = t_str;
+		}
+	}
+	//t_str = ft_strtrim(str, set);
+	add_space(str_treated);
+	//free(t_str);
+	return (str_treated);
+}
+
 int	child_prog(int *pipe, t_pipex *args, char **envp)
 {
 	if (args->flag == 0)
@@ -81,7 +112,7 @@ int	child_prog(int *pipe, t_pipex *args, char **envp)
 		if (check_outfile(args->outfile) != 0)
 			return (5);
 	}
-	args->cmd_args = ft_split(args->cmd_str, ' ');
+	args->cmd_args = treat_str(args->cmd_str);
 	args->fpath = path_search(envp, args->cmd_args[0]);
 	if (args->fpath == NULL)
 	{
@@ -90,6 +121,5 @@ int	child_prog(int *pipe, t_pipex *args, char **envp)
 		free_char_array(args->cmd_args);
 		return (127);
 	}
-	//return (child_exec(pipe, flag, args, envp));
 	return (child_exec(pipe, args, envp));
 }

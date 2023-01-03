@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 00:00:09 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/31 19:00:56 by coret            ###   ########.fr       */
+/*   Updated: 2023/01/03 06:05:46 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,43 @@ char	*path_search(char *envp[], const char *cmd)
 	path = exec_val(paths, ft_strjoin("/", cmd));
 	free_char_array(paths);
 	return (path);
+}
+
+void	treat_quotes(char *str)
+{
+	int	i;
+	int	flag;
+
+	flag = 0;
+	i = 0;
+	while(str[++i])
+	{
+		if ((str[i] == '"' && str[i - 1] != '\\') || (str[i] == 39 && str[i - 1] != '\\'))
+		{
+			if (flag == 1)
+				flag = 0;
+			else
+				flag = 1;
+			str[i] = 18;
+		}
+		if (flag == 1 && str[i] == ' ')
+			str[i] = 17;
+	}
+}
+
+void	add_space(char **str)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (str[++i])
+	{
+		j = -1;
+		while (str[i][++j])
+		{
+			if (str[i][j] == 17)
+				str[i][j] = ' ';
+		}
+	}
 }

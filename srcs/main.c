@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:30:45 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/02 21:23:19 by coret            ###   ########.fr       */
+/*   Updated: 2023/01/03 06:07:35 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	call_fork(int *pipe, t_pipex *args, char *envp[])
 	if (args->pid[args->flag] == 0)
 	{
 		args->pid[args->flag] = child_prog(pipe, args, envp);
-		free_args(args);
+		//free_args(args);
 		return (args->pid[args->flag]);
 	}
 	if (args->pid[args->flag] > 0)
