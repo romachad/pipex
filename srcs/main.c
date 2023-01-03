@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:30:45 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/31 20:17:35 by coret            ###   ########.fr       */
+/*   Updated: 2023/01/02 21:23:19 by coret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,42 @@
 #include "../headers/libft.h"
 #include "../headers/ft_printf.h"
 
-int	main_fork(int *pipe, t_pipex *args, const char *argv[], char *envp[])
+static int	call_fork(int *pipe, t_pipex *args, char *envp[])
 {
-	int	pid;
-	int	pid2;
-
-	pid = fork();
-	if (pid == -1)
-		return (free_args(args));
-	if (pid == 0)
+	args->pid[args->flag] = fork();
+	if (args->pid[args->flag] == -1)
+		return (free_args(args) + 1);
+	if (args->pid[args->flag] == 0)
 	{
-		pid = child_prog(pipe, 0, args, envp);
+		args->pid[args->flag] = child_prog(pipe, args, envp);
 		free_args(args);
-		return (pid);
+		return (args->pid[args->flag]);
 	}
+	if (args->pid[args->flag] > 0)
+		return (0);
+	else
+		return (-1);
+}
+
+static int	main_fork(int *pipe, t_pipex *args, const char *argv[], char *envp[])
+{
+	int	retv;
+
+	args->flag = 0;
+	retv = call_fork(pipe, args, envp);
+	if (retv < 0)
+		return (255);
 	free(args->cmd_str);
 	args->cmd_str = ft_strdup(argv[3]);
-	pid2 = fork();
-	if (pid2 == -1)
-	{
-		wait(NULL);
-		return (free_args(args));
-	}
-	if (pid2 == 0)
-	{
-		pid2 = child_prog(pipe, 1, args, envp);
-		free_args(args);
-		return (pid2);
-	}
+	args->flag = 1;
+	retv = call_fork(pipe, args, envp);
+	if (retv < 0)
+		return (255);
 	close(pipe[0]);
 	close(pipe[1]);
 	//Adicionar wait para cara PID!
-	waitpid(pid, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(args->pid[0], NULL, 0);
+	waitpid(args->pid[1], NULL, 0);
 	free_args(args);
 	return (0);
 }

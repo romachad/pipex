@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 03:50:29 by romachad          #+#    #+#             */
-/*   Updated: 2022/12/31 20:06:52 by coret            ###   ########.fr       */
+/*   Updated: 2023/01/02 21:23:16 by coret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ static int	child_inpipe_outfile(int *pipe, t_pipex *args, char **envp)
 	return (4);
 }
 
-static int	child_exec(int *pipe, int flag, t_pipex *args, char **envp)
+static int	child_exec(int *pipe, t_pipex *args, char **envp)
 {
-	if (flag == 0)
+	if (args->flag == 0)
 		return (child_infile_outpipe(pipe, args, envp));
-	if (flag == 1)
+	if (args->flag == 1)
 	{
 		return (child_inpipe_outfile(pipe, args, envp));
 	}
@@ -69,14 +69,14 @@ static int	child_exec(int *pipe, int flag, t_pipex *args, char **envp)
 	}
 }
 
-int	child_prog(int *pipe, int flag, t_pipex *args, char **envp)
+int	child_prog(int *pipe, t_pipex *args, char **envp)
 {
-	if (flag == 0)
+	if (args->flag == 0)
 	{
 		if (check_infile(args->infile) != 0)
 			return (6);
 	}
-	if (flag == 1)
+	if (args->flag == 1)
 	{
 		if (check_outfile(args->outfile) != 0)
 			return (5);
@@ -90,5 +90,6 @@ int	child_prog(int *pipe, int flag, t_pipex *args, char **envp)
 		free_char_array(args->cmd_args);
 		return (127);
 	}
-	return (child_exec(pipe, flag, args, envp));
+	//return (child_exec(pipe, flag, args, envp));
+	return (child_exec(pipe, args, envp));
 }
