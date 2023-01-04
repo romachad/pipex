@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 03:50:29 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/04 03:13:16 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/04 03:52:24 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,33 +67,6 @@ static int	child_exec(int *pipe, t_pipex *args, char **envp)
 		free_char_array(args->cmd_args);
 		return (255);
 	}
-}
-
-static char	**treat_str(char *str)
-{
-	char	*t_str;
-	char	**str_treated;
-	char	set[2];
-	int		i;
-
-	set[0] = 18;
-	set[1] = 0;
-	treat_quotes(str);
-	str_treated = ft_split(str, ' ');
-	i = -1;
-	while (str_treated[++i])
-	{
-		t_str = ft_strtrim(str_treated[i], set);
-		if (t_str[0] == 0)
-			free(t_str);
-		else
-		{
-			free(str_treated[i]);
-			str_treated[i] = t_str;
-		}
-	}
-	add_space(str_treated);
-	return (str_treated);
 }
 
 int	child_prog(int *pipe, t_pipex *args, char **envp)

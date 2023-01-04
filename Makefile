@@ -1,7 +1,7 @@
 NAME = pipex
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS_FILES = main check_perm path_search child
+SRCS_FILES = main check_perm path_search child free_variables args_str_treatment
 HEADERS_FILES = pipex ft_printf libft
 SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(SRCS_FILES)))
 OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(SRCS_FILES)))

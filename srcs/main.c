@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:30:45 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/04 03:16:00 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/04 03:38:20 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	main_fork(int *pipe, t_pipex *args, char *argv[], char *envp[])
 	return (0);
 }
 
-int	main(int argc, const char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	arguments;
 	int		p1[2];
