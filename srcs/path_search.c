@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 00:00:09 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/03 06:05:46 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/04 03:17:17 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ void	treat_quotes(char *str)
 
 	flag = 0;
 	i = 0;
-	while(str[++i])
+	while (str[++i])
 	{
-		if ((str[i] == '"' && str[i - 1] != '\\') || (str[i] == 39 && str[i - 1] != '\\'))
+		if ((str[i] == '"' && str[i - 1] != '\\') \
+				|| (str[i] == 39 && str[i - 1] != '\\'))
 		{
 			if (flag == 1)
 				flag = 0;

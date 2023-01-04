@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 03:50:29 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/03 06:05:41 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/04 03:13:16 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,7 @@ static char	**treat_str(char *str)
 	set[0] = 18;
 	set[1] = 0;
 	treat_quotes(str);
-	//free(str);
 	str_treated = ft_split(str, ' ');
-	free(str);
 	i = -1;
 	while (str_treated[++i])
 	{
@@ -94,9 +92,7 @@ static char	**treat_str(char *str)
 			str_treated[i] = t_str;
 		}
 	}
-	//t_str = ft_strtrim(str, set);
 	add_space(str_treated);
-	//free(t_str);
 	return (str_treated);
 }
 
