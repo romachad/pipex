@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 03:44:48 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/04 03:54:27 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/04 04:57:59 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,28 @@
 
 static void	treat_quotes(char *str)
 {
-	int	i;
-	int	flag;
+	char	c;
+	int		i;
+	int		flag;
 
 	flag = 0;
 	i = 0;
 	while (str[++i])
 	{
-		if ((str[i] == '"' && str[i - 1] != '\\') \
-				|| (str[i] == 39 && str[i - 1] != '\\'))
+		if ((str[i] == '"' && str[i - 1] != '\\' && flag == 0) \
+				|| (str[i] == 39 && str[i - 1] != '\\' && flag == 0))
 		{
-			if (flag == 1)
-				flag = 0;
-			else
-				flag = 1;
+			flag = 1;
+			c = str[i];
 			str[i] = 18;
 		}
 		if (flag == 1 && str[i] == ' ')
 			str[i] = 17;
+		if (flag == 1 && str[i] == c && str[i - 1] != '\\')
+		{
+			str[i] = 18;
+				flag = 0;
+		}
 	}
 }
 
@@ -53,6 +57,36 @@ static void	add_space(char **str)
 	}
 }
 
+static void	change_cmd(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '"')
+			str[i] = 17;
+		if (str[i] == 39)
+			str[i] = 18;
+		if (str[i] == ' ')
+			break ;
+	}
+}
+
+static void	return_cmd(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == 17)
+			str[i] = '"';
+		if (str[i] == 18)
+			str[i] = 39;
+	}
+}
+
 char	**treat_str(char *str)
 {
 	char	*t_str;
@@ -62,8 +96,10 @@ char	**treat_str(char *str)
 
 	set[0] = 18;
 	set[1] = 0;
+	change_cmd(str);
 	treat_quotes(str);
 	str_treated = ft_split(str, ' ');
+	return_cmd(str_treated[0]);
 	i = -1;
 	while (str_treated[++i])
 	{
