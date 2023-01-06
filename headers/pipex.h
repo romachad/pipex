@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:31:56 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/04 03:53:13 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/06 04:07:53 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ typedef struct p_pipex
 	char	*cmd_str;
 	char	**cmd_args;
 	char	*fpath;
-	int		pid[2];
+	int		*pid;
 	int		flag;
+	int		argc;
+	int		qtd_cmd;
+	int		cmd_n;
 }	t_pipex;
 
 char	*path_search(char *envp[], const char *cmd);
