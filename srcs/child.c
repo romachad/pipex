@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 03:50:29 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/04 03:52:24 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/08 07:32:57 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,7 @@ static int	child_exec(int *pipe, t_pipex *args, char **envp)
 	if (args->flag == 0)
 		return (child_infile_outpipe(pipe, args, envp));
 	if (args->flag == 1)
-	{
 		return (child_inpipe_outfile(pipe, args, envp));
-	}
-	else
-	{
-		ft_printf("Nothing here!\n");
-		free(args->fpath);
-		free_char_array(args->cmd_args);
-		return (255);
-	}
 }
 
 int	child_prog(int *pipe, t_pipex *args, char **envp)
