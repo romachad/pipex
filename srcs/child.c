@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 03:50:29 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/08 07:32:57 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/08 06:37:40 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../headers/libft.h"
 #include "../headers/ft_printf.h"
 
-static int	child_infile_outpipe(int *pipe, t_pipex *args, char **envp)
+static int	child_infile_outpipe(t_pipex *args, char **envp)
 {
 	int	fd;
 
@@ -23,9 +23,8 @@ static int	child_infile_outpipe(int *pipe, t_pipex *args, char **envp)
 	{
 		dup2(fd, STDIN_FILENO);
 		close(fd);
-		close(pipe[0]);
-		dup2(pipe[1], STDOUT_FILENO);
-		close(pipe[1]);
+		dup2(args->pipes[1], STDOUT_FILENO);
+		close_pipes(args);
 		execve(args->fpath, args->cmd_args, envp);
 	}
 	free(args->fpath);
@@ -33,18 +32,28 @@ static int	child_infile_outpipe(int *pipe, t_pipex *args, char **envp)
 	return (3);
 }
 
-static int	child_inpipe_outfile(int *pipe, t_pipex *args, char **envp)
+static void	child_inpipe_outpipe(t_pipex *args, char **envp)
+{
+	dup2(args->pipes[args->pipe_i], STDIN_FILENO);
+	dup2(args->pipes[args->pipe_i + 3], STDOUT_FILENO);
+	close_pipes(args);
+	execve(args->fpath, args->cmd_args, envp);
+	free(args->fpath);
+	free_char_array(args->cmd_args);
+	exit (254);
+}
+
+static int	child_inpipe_outfile(t_pipex *args, char **envp)
 {
 	int	fd;
 
-	close(pipe[1]);
 	fd = open(args->outfile, O_WRONLY);
 	if (fd != -1)
 	{
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
-		dup2(pipe[0], STDIN_FILENO);
-		close(pipe[0]);
+		dup2(args->pipes[args->pipe_i], STDIN_FILENO);
+		close_pipes(args);
 		execve(args->fpath, args->cmd_args, envp);
 	}
 	free(args->fpath);
@@ -52,15 +61,22 @@ static int	child_inpipe_outfile(int *pipe, t_pipex *args, char **envp)
 	return (4);
 }
 
-static int	child_exec(int *pipe, t_pipex *args, char **envp)
+static int	child_exec(t_pipex *args, char **envp)
 {
 	if (args->flag == 0)
-		return (child_infile_outpipe(pipe, args, envp));
+		return (child_infile_outpipe(args, envp));
 	if (args->flag == 1)
-		return (child_inpipe_outfile(pipe, args, envp));
+	{
+		return (child_inpipe_outfile(args, envp));
+	}
+	else
+	{
+		child_inpipe_outpipe(args, envp);
+		return (0);
+	}
 }
 
-int	child_prog(int *pipe, t_pipex *args, char **envp)
+int	child_prog(t_pipex *args, char **envp)
 {
 	if (args->flag == 0)
 	{
@@ -81,5 +97,5 @@ int	child_prog(int *pipe, t_pipex *args, char **envp)
 		free_char_array(args->cmd_args);
 		return (127);
 	}
-	return (child_exec(pipe, args, envp));
+	return (child_exec(args, envp));
 }

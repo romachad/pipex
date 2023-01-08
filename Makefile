@@ -1,4 +1,5 @@
 NAME = pipex
+NAME_B = pipex_b
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS_FILES = main check_perm path_search child free_variables args_str_treatment pipes
@@ -24,6 +25,9 @@ $(NAME): $(HEADERS) $(OBJS) libs
 $(HEADERS):
 	ln printf/srcs/ft_printf.h $(HEADERS_DIR)
 	ln libft/headers/libft.h $(HEADERS_DIR)
+
+bonus:
+	make $(NAME)
 
 libs: $(HEADERS)
 	make -C ./printf
