@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 03:41:24 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/04 03:20:05 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/08 07:28:06 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,22 @@ int	check_infile(char *infile)
 		perror(str);
 		free(str);
 		return (6);
+	}
+	return (0);
+}
+
+int	check_args(int argc, char *argv[])
+{
+	int	i;
+
+	i = 0;
+	while (++i < argc)
+	{
+		if (ft_strlen(argv[i]) == 0)
+		{
+			ft_printf("Error, argument can't be empty!\n");
+			return (-1);
+		}
 	}
 	return (0);
 }

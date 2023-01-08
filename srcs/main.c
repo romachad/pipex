@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:30:45 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/08 06:40:47 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/08 07:20:36 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,10 @@ static void	bonus(t_pipex *args, char *argv[], char *envp[])
 
 static int	main_fork(t_pipex *args, char *argv[], char *envp[])
 {
-	int	retv;
+	int	i;
 
 	args->flag = 0;
-	retv = call_fork(args, envp);
-	if (retv < 0)
+	if (call_fork(args, envp) < 0)
 	{
 		free_args(args);
 		exit (255);
@@ -70,16 +69,12 @@ static int	main_fork(t_pipex *args, char *argv[], char *envp[])
 	free(args->cmd_str);
 	args->cmd_str = ft_strdup(argv[args->argc - 2]);
 	args->flag = 1;
-	retv = call_fork(args, envp);
-	if (retv < 0)
+	if (call_fork(args, envp) < 0)
 		perror("pipex error ");
 	close_pipes(args);
-	int i =0;
-	while (i < args->cmd_n)
-	{
+	i = -1;
+	while (++i < args->cmd_n)
 		waitpid(args->pid[i], NULL, 0);
-		i++;
-	}
 	free_args(args);
 	return (0);
 }
@@ -88,9 +83,11 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	arguments;
 
+	if (check_args(argc, argv) == -1)
+		return (-1);
 	if (argc < 5)
 	{
-		ft_printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
+		ft_printf("Usage: ./pipex file1 cmd1 cmd2 cmdN file2\n");
 		return (3);
 	}
 	arguments.qtd_cmd = argc - 3;
