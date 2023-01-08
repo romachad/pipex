@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 03:40:42 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/06 04:21:08 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/08 06:29:41 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	free_args(t_pipex *args)
 	free(args->outfile);
 	free(args->cmd_str);
 	free(args->pid);
+	free(args->pipes);
 	return (4);
 }
 
