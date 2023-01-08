@@ -6,7 +6,7 @@
 /*   By: romachad <romachad@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 02:30:45 by romachad          #+#    #+#             */
-/*   Updated: 2023/01/08 07:20:36 by romachad         ###   ########.fr       */
+/*   Updated: 2023/01/08 17:18:40 by romachad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	call_fork(t_pipex *args, char *envp[])
 		return (-1);
 }
 
-static void	bonus(t_pipex *args, char *argv[], char *envp[])
+static void	pipe_to_pipe(t_pipex *args, char *argv[], char *envp[])
 {
 	int	retv;
 	int	i;
@@ -65,7 +65,7 @@ static int	main_fork(t_pipex *args, char *argv[], char *envp[])
 	}
 	args->cmd_n++;
 	if (args->qtd_cmd > 2)
-		bonus(args, argv, envp);
+		pipe_to_pipe(args, argv, envp);
 	free(args->cmd_str);
 	args->cmd_str = ft_strdup(argv[args->argc - 2]);
 	args->flag = 1;
